@@ -16,7 +16,10 @@ public class Main {
         doKaprekarAlgorithmFor(ints, vs);
 
         int[] directCycles = getDirectCycles(vs);
-        System.out.println(Arrays.stream(directCycles).mapToObj(String::valueOf).collect(Collectors.joining(", ")));
+        System.out.println("Direct cycles (Kaprekar-constants): " + collectIntArray(directCycles));
+
+        int[] multipleIngoingVerteces = getMultipleIngoingVerteces(vs);
+        System.out.println("Multiple ingoing Verteces have: " + collectIntArray(multipleIngoingVerteces));
     }
 
     public static int[] getDirectCycles(Vertex[] vs) {
@@ -26,6 +29,15 @@ public class Main {
         }
 
         return directCycles.stream().mapToInt(Vertex::getValue).toArray();
+    }
+
+    public static int[] getMultipleIngoingVerteces(Vertex[] vs) {
+        List<Vertex> multipleIngoingVerteces = new ArrayList<>();
+        for (Vertex v : vs) {
+            if (v.getIngoingVerteces().size() > 1) multipleIngoingVerteces.add(v);
+        }
+
+        return multipleIngoingVerteces.stream().mapToInt(Vertex::getValue).toArray();
     }
 
     public static void doKaprekarAlgorithmFor(int[] ints, Vertex[] vs) {
@@ -78,5 +90,9 @@ public class Main {
 
     public static int toInt(String s) throws NumberFormatException {
         return Integer.parseInt(s);
+    }
+
+    public static String collectIntArray(int[] ints) {
+        return Arrays.stream(ints).mapToObj(String::valueOf).collect(Collectors.joining(", "));
     }
 }
